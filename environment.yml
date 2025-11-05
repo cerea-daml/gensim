@@ -1,0 +1,36 @@
+name: gensim
+channels:
+  - anaconda
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - tqdm
+  - cartopy
+  - matplotlib
+  - numpy
+  - scipy
+  - zarr
+  - netcdf4
+  - xarray
+  - dask
+  - distributed
+  - ipykernel
+  - ipywidgets
+  - gcsfs
+  - pip:
+      - git+https://github.com/katsura-jp/pytorch-cosine-annealing-with-warmup
+      - cmocean
+      - einops
+      - rich
+      - --extra-index-url https://download.pytorch.org/whl/cu126
+      - torch
+      - torchvision
+      - torchaudio
+      - lightning
+      - hydra-core
+      - hydra-joblib-launcher
+      - hydra-submitit-launcher
+      - hydra-optuna-sweeper
+      - tensorstore
+      - wandb
