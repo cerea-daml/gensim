@@ -219,7 +219,6 @@ surrogate:
   optimize_scale: true
   censoring: true
   train_with_overlap: true
-  use_ema: true
   patching: true
   patch_size:
   - 64
