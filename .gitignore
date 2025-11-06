@@ -171,10 +171,7 @@ cython_debug/
 # PyPI configuration file
 .DS_Store
 .pypirc
-data/models
-data/nextsim
 data/wandb
-notebooks
 outputs
 .continue*
 *.pt*

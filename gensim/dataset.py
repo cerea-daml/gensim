@@ -89,7 +89,6 @@ class NeXtSIMDataset(Dataset):
             # Conversion into km
             self.mesh = mesh.values / 1_000
             self.mask = ds_aux["mask"].values
-            self.bathymetry = ds_aux["bathymetry"].values
 
     def _setup_dataset(self) -> Any:
         dataset = ts.open(
@@ -146,7 +145,6 @@ class NeXtSIMDataset(Dataset):
             "degree_days": degree_days,
             "mesh": self.mesh,
             "mask": self.mask[None],
-            "bathymetry": self.bathymetry[None],
             "resolution": np.array([self.base_resolution])
         }
         return sample

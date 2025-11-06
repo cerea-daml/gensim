@@ -18,7 +18,8 @@ from omegaconf import OmegaConf
 # Internal modules
 from .embedding import LogScaleModel
 from .utils import (
-    sample_uniform_time, masked_average, neglogpdf, neglogcdf, split_wd_params
+    sample_uniform_time, masked_average, neglogpdf, neglogcdf, split_wd_params, 
+    mask_tensor
 )
 from .wrapper import PatchedNetwork
 
@@ -40,7 +41,6 @@ class FlowMatchingModel(pl.LightningModule):
             total_steps: int = 250000,
             weight_decay: float = 1E-3,
             ema_rate: float = 0.999,
-            use_ema: bool = True,
             patching: bool = True,
             patch_size: Tuple[int, int] = (64, 64),
             overlap_size: Tuple[int, int] = (8, 8),
@@ -77,7 +77,6 @@ class FlowMatchingModel(pl.LightningModule):
         self.ema_model = self.ema_model.eval()
 
         # For sampling
-        self.use_ema = use_ema
         self.patching = patching
         self.patch_size = patch_size
         self.overlap_size = overlap_size
@@ -157,6 +156,14 @@ class FlowMatchingModel(pl.LightningModule):
             template_tensor.size(0), self._LABELS_DIMS,
             dtype=template_tensor.dtype, device=template_tensor.device
         )
+    
+    def _generate_noise(
+            self,
+            first_guess: torch.Tensor,
+            mask: torch.Tensor
+    ) -> torch.Tensor:
+        noise = torch.randn_like(first_guess)
+        return mask_tensor(noise, mask)
 
     def _get_latent_states(
             self,
@@ -181,7 +188,7 @@ class FlowMatchingModel(pl.LightningModule):
             padding_mode: str = 'replicate',
             **compile_kwargs
     ) -> None:
-        model = self.ema_model if self.use_ema else self.network
+        model = self.network
         if compile_model:
             model = torch.compile(model, **compile_kwargs)
             main_logger.info(
