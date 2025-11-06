@@ -2,11 +2,11 @@
 
 This is the official implementation of **GenSIM**, a generative sea-ice model to learn sea-ice dynamics with neural networks and flow matching.
 
-![Version](https://img.shields.io/badge/Version-0.5-blue?style=flat&link=https%3A%2F%2Fhuggingface.co%2Ftobifinn%2FGenSIM)
-![Demo](https://img.shields.io/badge/Demo-Colab-F9AB00?style=flat&logo=googlecolab&color=%23F9AB00&link=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1R3KPE4okFUGRcomI97RODO8IJAZHELJM%3Fusp%3Dsharing)
-![HuggingFace](https://img.shields.io/badge/Model-HuggingFace-FFD21E?style=flat&logo=huggingface&link=https%3A%2F%2Fhuggingface.co%2Ftobifinn%2FGenSIM)
-![Preprint](https://img.shields.io/badge/Preprint-ArXiv-B31B1B?style=flat&logo=arxiv&link=https%3A%2F%2Farxiv.org%2Fabs%2F2508.14984)
+[![Demo](https://img.shields.io/badge/Demo-Colab-F9AB00?style=flat&logo=googlecolab&color=%23F9AB00)](https://colab.research.google.com/drive/1R3KPE4okFUGRcomI97RODO8IJAZHELJM?usp=sharing)
+[![HuggingFace](https://img.shields.io/badge/Model-HuggingFace-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/tobifinn/GenSIM)
+[![Preprint](https://img.shields.io/badge/Preprint-ArXiv-B31B1B?style=flat&logo=arxiv)](https://arxiv.org/abs/2508.14984)
 ![Website](https://img.shields.io/badge/Website-Stay_Tuned-lightblue?style=flat)
+![Version](https://img.shields.io/badge/Version-0.5-blue?style=flat)
 
 ## Repository Structure
 
