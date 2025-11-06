@@ -43,7 +43,7 @@ README.md – This file
 ```bash
 git clone https://github.com/cerea-daml/gensim.git
 cd gensim
-conda env create -f [`environment.yml`](environment.yml)
+conda env create -f environment.yml
 conda activate gensim
 pip install -e .
 ```
@@ -61,14 +61,14 @@ The file [`config.yaml`](config.yaml) contains all hyper‑parameters. Key secti
 - `trainer` – Lightning trainer settings (accelerator, devices, precision, max_steps).
 - `surrogate.network` – Transformer architecture (n_input, n_output, n_features, n_blocks, etc.).
 - `surrogate.encoder` / `decoder` – Encoder/decoder parameters.
-- `surrogate.sampler` – Number of steps and schedule parameters.
-- `surrogate.train_augmentation` – Probabilities for flips/rotations.
+- `surrogate.sampler` – Number of steps and schedule parameters for flow matching sampler.
+- `surrogate.train_augmentation` – Settings for data augmentation.
 - `data` – Paths to data, batch size, number of workers.
 
 You can override any entry from the command line, e.g.:
 
 ```bash
-python [`train.py`](train.py) trainer.max_steps=500000 data.batch_size=8 exp_name=my_exp
+python train.py trainer.max_steps=500000 exp_name=my_exp
 ```
 
 ## Training
@@ -76,7 +76,7 @@ python [`train.py`](train.py) trainer.max_steps=500000 data.batch_size=8 exp_nam
 Ensure the `data/train_data` folder contains the required Zarr files (`train.zarr`, `validation.zarr`) and the auxiliary NetCDF (`auxiliary/ds_auxiliary.nc`).
 
 ```bash
-python [`train.py`](train.py)
+python train.py
 ```
 
 The script logs progress with a tqdm bar, saves checkpoints under `data/models/<exp_name>/`, and (offline) logs to Weights & Biases as configured in `config.yaml`.
