@@ -8,6 +8,7 @@ This is the official implementation of **GenSIM**, a generative sea-ice model to
 data/
 ├─ auxiliary – Auxiliary data contained in the repository
 ├── ds_auxiliary.nc - Auxiliary data file (grid cells, mask, bathymetry)
+├─ models - The pre-trained model checkpoints (available at [`HuggingFace`](https://huggingface.co/tobifinn/GenSIM))
 ├─ train_data – Zarr training data (not contained in the repository and has to be linked)
 
 gensim/
@@ -75,6 +76,18 @@ The script logs progress with a tqdm bar, saves checkpoints under `data/models/<
 
 To resume training set `ckpt_path` in `config.yaml` to the desired checkpoint.
 
+## Inference
+
+For inference with this repository, we provide pre-trained model checkpoints via [`HuggingFace`](https://huggingface.co/tobifinn/GenSIM).
+The model checkpoints define the weights of the neural network and are available in two different versions: either as exponential moving average (`model_weights_ema.safetensors`) or as raw weights (`model_weights.safetensors`).
+To avoid a contamination of the weights with malicious data, the model weights are stored in the [`safetensors`](https://huggingface.co/docs/safetensors/en/index) format.
+
+A [`jupyter notebook `](inference_demo.ipynb) is included to showcase prediction steps with GenSIM over a demo dataset.
+To use the notebook, ensure the demo dataset `data/auxiliary/ds_demo.nc` is downloaded from [`Zenodo`](https://doi.org/10.5281/zenodo.17535317).
+The inference demo initialises GenSIM, loads its checkpoint, and makes ensemble predictions of up to four days.
+These predictions are then compared to a persistence forecast and the targetted neXtSIM-OPA simulation.
+The code used in the inference notebook can be also used as starting step for other usage.
+
 ## Data Layout
 
 Sea‑ice state variables: `sit`, `sic`, `sid`, `siu`, `siv`, `snt`.  
@@ -82,7 +95,7 @@ Forcing variables: `tus`, `rhus`, `uas`, `vas`.
 
 The Zarr file contains a `datacube` array with dimensions `[time, variable, y, x]` and a `var_names` attribute.  
 
-The auxiliary NetCDF provides `mask`, `bathymetry`, `x_coord`, `y_coord`.
+The auxiliary NetCDF provides `mask`, `x_coord`, `y_coord`.
 
 ## License
 
@@ -90,17 +103,19 @@ This project is released under the MIT License (see `LICENSE`).
 
 ## Citation
 
-If you use GenSIM, please cite:
+If you use GenSIM, please cite the following preprint until publication:
 
 ```bibtex
-@article{Finn2025GenSIM,
-  author = {Tobias Sebastian Finn},
-  title = {Generative Sea‑Ice Modeling with Flow‑Matching Transformers},
-  journal = {Journal of Climate Modeling},
-  year = {2025},
-  volume = {XX},
-  pages = {YY--ZZ},
-  doi = {10.1234/jcm.2025.xxx}
+@article{Finn_preprint_2025,
+    author={Finn, Tobias Sebastian and Bocquet, Marc and Rampal, Pierre and Durand, Charlotte and Porro, Flavia and Farchi, Alban and Carrassi, Alberto}
+    title={Generative AI models enable efficient and physically consistent sea-ice simulations},
+    url={http://arxiv.org/abs/2508.14984},
+    DOI={10.48550/arXiv.2508.14984},
+    note={arXiv:2508.14984 [physics]},
+    number={arXiv:2508.14984},
+    publisher={arXiv},
+    year={2025},
+    month=aug
 }
 ```
 
