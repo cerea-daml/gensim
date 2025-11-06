@@ -1,19 +1,19 @@
-<svg width="93.7" height="20" viewBox="0 0 937 200" xmlns="http://www.w3.org/2000/svg">
+<svg width="111.7" height="20" viewBox="0 0 1117 200" xmlns="http://www.w3.org/2000/svg">
   <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="m"><rect width="937" height="200" rx="30" fill="#FFF"/></mask>
+  <mask id="m"><rect width="1117" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="702" height="200" fill="#555"/>
-    <rect width="235" height="200" fill="#08C" x="702"/>
-    <rect width="937" height="200" fill="url(#a)"/>
+    <rect width="415" height="200" fill="#08C" x="702"/>
+    <rect width="1117" height="200" fill="url(#a)"/>
   </g>
   <g fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="602" fill="#000" opacity="0.25">Code Lines</text>
     <text x="50" y="138" textLength="602">Code Lines</text>
-    <text x="757" y="148" textLength="135" fill="#000" opacity="0.25">3k</text>
-    <text x="747" y="138" textLength="135">3k</text>
+    <text x="757" y="148" textLength="315" fill="#000" opacity="0.25">62.9k</text>
+    <text x="747" y="138" textLength="315">62.9k</text>
   </g>
   
 </svg>
