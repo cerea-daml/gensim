@@ -11,7 +11,6 @@ from typing import Dict, Tuple, Any, Optional
 # External modules
 import torch
 import lightning.pytorch as pl
-from cosine_annealing_warmup import CosineAnnealingWarmupRestarts
 from hydra.utils import instantiate
 from omegaconf import OmegaConf
 
@@ -497,6 +496,8 @@ class FlowMatchingModel(pl.LightningModule):
     def configure_optimizers(
             self
     ) -> Any:
+        # To get rid of unusual imports when only inference is performed.
+        from cosine_annealing_warmup import CosineAnnealingWarmupRestarts
         wd_params, nowd_params = split_wd_params(self.network)
         optimizer_net = torch.optim.AdamW([
             {"params": wd_params, "weight_decay": self.weight_decay},
