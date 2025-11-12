@@ -29,6 +29,7 @@ gensim/
 ├─ sampler.py – Flow‑matching sampler with schedule and second‑order update
 ├─ utils.py – helper functions (masking, averaging, param grouping)
 └─ wrapper.py – PatchedNetwork wrapper for forecasting with domain decomposition
+├─ notebooks/ – Jupyter notebooks for data preprocessing and analysis
 
 config.yaml – Composed Hydra configuration of the training run for GenSIM
 environment.yml – Conda environment definition
@@ -53,6 +54,17 @@ Verify installation:
 ```bash
 python -c "import gensim; print(gensim.__version__)"
 ```
+
+## Data Preprocessing
+
+The `notebooks/` folder contains Jupyter notebooks that walk through the full data preparation pipeline required for training and inference:
+
+- `data_01_get_auxiliary.ipynb` – Downloads and prepares auxiliary NetCDF data.
+- `data_02_nextsim_to_zarr.ipynb` – Converts neXtSIM output to Zarr format.
+- `data_03_split_parts.ipynb` – Splits the Zarr dataset into training and validation parts.
+- `data_04_estimate_normalization.ipynb` – Estimates and stores dataset normalization statistics.
+
+<u>It is important to process the data in the **exact order** shown above to ensure the model receives correctly formatted inputs.</u>
 
 ## Configuration
 
