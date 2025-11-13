@@ -16,7 +16,7 @@ data/
 ├── ds_auxiliary.nc - Auxiliary data file (grid cells, mask)
 ├── ds_demo.nc - Demo dataset (available at https://doi.org/10.5281/zenodo.17535317)
 ├─ models - The pre-trained model checkpoints (available at https://huggingface.co/tobifinn/GenSIM)
-├─ train_data – Zarr training data (not contained in the repository and has to be linked)
+├─ train_data – Zarr training data (not contained in the repository and has to be linked. How to get data please see notebooks/data/)
 
 gensim/
 ├─ augmentation.py – data augmentation (flips, rotations, patch generation)
@@ -29,7 +29,9 @@ gensim/
 ├─ sampler.py – Flow‑matching sampler with schedule and second‑order update
 ├─ utils.py – helper functions (masking, averaging, param grouping)
 └─ wrapper.py – PatchedNetwork wrapper for forecasting with domain decomposition
-├─ notebooks/ – Jupyter notebooks for data preprocessing and analysis
+
+notebooks/ – Jupyter notebooks to reproduce key results from the manuscript
+├─ data/ – Jupyter notebooks for data preprocessing and analysis
 
 config.yaml – Composed Hydra configuration of the training run for GenSIM
 environment.yml – Conda environment definition
@@ -125,16 +127,16 @@ This project is released under the MIT License (see `LICENSE`).
 If you use GenSIM, please cite the following preprint until publication:
 
 ```bibtex
-@article{Finn_preprint_2025,
-    author={Finn, Tobias Sebastian and Bocquet, Marc and Rampal, Pierre and Durand, Charlotte and Porro, Flavia and Farchi, Alban and Carrassi, Alberto}
-    title={Generative AI models enable efficient and physically consistent sea-ice simulations},
+@article{finn_preprint_2025,
+    author={Finn, Tobias Sebastian and Bocquet, Marc and Rampal, Pierre and Durand, Charlotte and Porro, Flavia and Farchi, Alban and Carrassi, Alberto},
+    title={Generative AI models capture realistic sea-ice evolution from days to decades},
     url={http://arxiv.org/abs/2508.14984},
     DOI={10.48550/arXiv.2508.14984},
     note={arXiv:2508.14984 [physics]},
     number={arXiv:2508.14984},
     publisher={arXiv},
     year={2025},
-    month=aug
+    month=nov
 }
 ```
 
