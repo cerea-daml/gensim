@@ -24,7 +24,8 @@ gensim/
 ├─ dataset.py – PyTorch Dataset that reads Zarr data
 ├─ embedding.py – random‑Fourier embeddings and Embedder
 ├─ encoder_decoder.py – Encoder and Decoder to map to physical space
-├─ model.py – LightningModule handling training and forecasting logic
+├─ train_module.py – LightningModule for training with EMA model support
+├─ forecast_module.py – Lightweight PyTorch module for inference
 ├─ network.py – Transformer architecture (tokenizer, attention, skips)
 ├─ sampler.py – Flow‑matching sampler with schedule and second‑order update
 ├─ utils.py – helper functions (masking, averaging, param grouping)
@@ -33,7 +34,8 @@ gensim/
 notebooks/ – Jupyter notebooks to reproduce key results from the manuscript
 ├─ data/ – Jupyter notebooks for data preprocessing and analysis
 
-config.yaml – Composed Hydra configuration of the training run for GenSIM
+config_train.yaml – Training configuration for GenSIMTrainModule
+config_forecast.yaml – Forecasting configuration for GenSIMForecastModule
 environment.yml – Conda environment definition
 setup.py – Package installation script
 train.py – Entry point for training (Hydra CLI)
@@ -68,9 +70,36 @@ The `notebooks/` folder contains Jupyter notebooks that walk through the full da
 
 <u>It is important to process the data in the **exact order** shown above to ensure the model receives correctly formatted inputs.</u>
 
+## Module Architecture
+
+GenSIM provides two specialized modules for different use cases:
+
+### GenSIMTrainModule (`gensim/train_module.py`)
+- **Purpose**: Training with PyTorch Lightning
+- **Features**:
+  - Full training logic with loss computation
+  - EMA (Exponential Moving Average) model support
+  - Optimizer and scheduler configuration
+  - Validation and logging capabilities
+- **Use case**: Model training and development
+
+### GenSIMForecastModule (`gensim/forecast_module.py`)
+- **Purpose**: Lightweight inference
+- **Features**:
+  - Minimal overhead for fast predictions
+  - No training-specific components
+  - Direct PyTorch module instantiation
+  - Optimized for deployment
+- **Use case**: Production inference and forecasting
+
 ## Configuration
 
-The file [`config.yaml`](config.yaml) contains all hyper‑parameters. Key sections:
+The configuration is split into two files:
+
+- [`config_train.yaml`](config_train.yaml) – Training configuration for GenSIMTrainModule
+- [`config_forecast.yaml`](config_forecast.yaml) – Forecasting configuration for GenSIMForecastModule
+
+Key sections:
 
 - `trainer` – Lightning trainer settings (accelerator, devices, precision, max_steps).
 - `surrogate.network` – Transformer architecture (n_input, n_output, n_features, n_blocks, etc.).
