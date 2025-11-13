@@ -29,7 +29,9 @@ gensim/
 ├─ sampler.py – Flow‑matching sampler with schedule and second‑order update
 ├─ utils.py – helper functions (masking, averaging, param grouping)
 └─ wrapper.py – PatchedNetwork wrapper for forecasting with domain decomposition
-├─ notebooks/ – Jupyter notebooks for data preprocessing and analysis
+
+notebooks/ – Jupyter notebooks to reproduce key results from the manuscript
+├─ data/ – Jupyter notebooks for data preprocessing and analysis
 
 config.yaml – Composed Hydra configuration of the training run for GenSIM
 environment.yml – Conda environment definition
