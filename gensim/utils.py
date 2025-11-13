@@ -233,7 +233,7 @@ def neglogpdf(value: torch.Tensor, log_scale: torch.Tensor) -> torch.Tensor:
 
 def neglogcdf(value: torch.Tensor) -> torch.Tensor:
     """
-    Computes the negative logarithm of the cumulative distribution function for 
+    Computes the negative logarithm of the cumulative distribution function for
     a normal distribution.
 
     Args:
@@ -241,7 +241,7 @@ def neglogcdf(value: torch.Tensor) -> torch.Tensor:
 
     Returns:
         The cumulative distribution function value.
-    """    
+    """
     return -torch.special.log_ndtr(value)
 
 
@@ -259,3 +259,92 @@ class ToChannelsLastWrapper(torch.nn.Module):
         channels_last = in_tensor.movedim(self.channel_dim, -1)
         func_output = self.module_to_wrap(channels_last)
         return func_output.movedim(-1, self.channel_dim)
+def remove_overlap(
+    field: torch.Tensor,
+    train_with_overlap: bool,
+    overlap_slices: Tuple[slice, slice]
+) -> torch.Tensor:
+    """
+    Remove overlap from field tensor if train_with_overlap is True.
+    
+    Args:
+        field: Input tensor
+        train_with_overlap: Whether to train with overlap
+        overlap_slices: Tuple of slices for removing overlap
+        
+    Returns:
+        Tensor with overlap removed if applicable
+    """
+    if not train_with_overlap:
+        return field
+    return field[..., overlap_slices[0], overlap_slices[1]]
+
+
+def get_empty_labels(
+    template_tensor: torch.Tensor,
+    labels_dims: int = 3
+) -> torch.Tensor:
+    """
+    Generate empty labels tensor with specified dimensions.
+    
+    Args:
+        template_tensor: Template tensor for device and dtype
+        labels_dims: Number of label dimensions
+        
+    Returns:
+        Empty labels tensor
+    """
+    return torch.zeros(
+        template_tensor.size(0), labels_dims,
+        dtype=template_tensor.dtype, device=template_tensor.device
+    )
+
+
+def generate_noise(
+    first_guess: torch.Tensor,
+    mask: torch.Tensor
+) -> torch.Tensor:
+    """
+    Generate noise tensor masked by the given mask.
+    
+    Args:
+        first_guess: Template tensor for noise generation
+        mask: Mask tensor
+        
+    Returns:
+        Masked noise tensor
+    """
+    noise = torch.randn_like(first_guess)
+    return mask_tensor(noise, mask)
+
+
+def get_latent_states(
+    states: torch.Tensor,
+    forcings: torch.Tensor,
+    mesh: torch.Tensor,
+    mask: torch.Tensor,
+    degree_days: torch.Tensor,
+    encoder: torch.nn.Module
+) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """
+    Process input states and forcings through encoder to get latent representations.
+    
+    Args:
+        states: Input states tensor
+        forcings: Input forcings tensor
+        mesh: Mesh tensor
+        mask: Mask tensor
+        degree_days: Degree days tensor
+        encoder: Encoder module
+        
+    Returns:
+        Tuple of (encoded, latent_mesh, latent_mask)
+    """
+    states_in = states.reshape(states.size(0), -1, *states.shape[-2:])
+    forcings_in = forcings.reshape(
+        forcings.size(0), -1, *forcings.shape[-2:]
+    )
+    forcings_in = torch.cat((forcings_in, degree_days), dim=-3)
+    in_tensor = torch.cat((states_in, forcings_in), dim=-3)
+    encoded, latent_mesh, latent_mask = encoder(in_tensor, mesh, mask)
+    return encoded, latent_mesh, latent_mask
