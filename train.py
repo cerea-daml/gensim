@@ -18,7 +18,7 @@ main_logger = logging.getLogger(__name__)
 
 
 @hydra.main(
-    version_base=None, config_path='.', config_name='config'
+    version_base=None, config_path='.', config_name='config_train'
 )
 def train_task(cfg: DictConfig, network_name: str = "surrogate") -> None:
     # Import within main loop to speed up training on Jean Zay
