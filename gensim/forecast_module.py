@@ -10,7 +10,6 @@ from typing import Tuple, Optional
 
 # External modules
 import torch
-import torch.nn as nn
 
 # Internal modules
 from .utils import (
@@ -27,17 +26,15 @@ class GenSIMForecastModule(nn.Module):
 
     def __init__(
             self,
-            network: nn.Module,
-            encoder: nn.Module,
-            decoder: nn.Module,
-            sampler: Optional[nn.Module] = None,
+            network: torch.nn.Module,
+            encoder: torch.nn.Module,
+            decoder: torch.nn.Module,
+            sampler: torch.nn.Module,
             patching: bool = True,
             patch_size: Tuple[int, int] = (64, 64),
             overlap_size: Tuple[int, int] = (8, 8),
     ):
         super().__init__()
-
-        # Neural networks - directly accept torch modules instead of OmegaConf
         self.network = network
         self.encoder = encoder
         self.decoder = decoder
@@ -52,11 +49,8 @@ class GenSIMForecastModule(nn.Module):
         )
 
         # Instantiate sampler if provided
-        if sampler is not None:
-            self.sampler = sampler
-            self.sampler.model = self.network
-        else:
-            self.sampler = None
+        self.sampler = sampler
+        self.sampler.model = self.network
 
         # Set inference model with deactivated compilation
         self.set_inference_model(compile_model=False)
@@ -73,15 +67,20 @@ class GenSIMForecastModule(nn.Module):
         encoded, latent_mesh, latent_mask = get_latent_states(
             states, forcings, mesh, mask, degree_days, self.encoder
         )
-        first_guess = states[:, -1]
+
         labels = get_empty_labels(encoded, self._LABELS_DIMS)
-        dynamics = self.forecast_func(
-            first_guess=first_guess,
+
+        first_guess = states[:, -1]
+        initial_states = generate_noise(first_guess, mask)
+        latent_bounds = self.decoder.get_latent_bounds(first_guess, mask)
+        dynamics = self.sampler.sample(
+            states=initial_states,
             encoded=encoded,
             mesh=latent_mesh,
             mask=latent_mask,
             labels=labels,
-            resolution=resolution
+            resolution=resolution,
+            latent_bounds=latent_bounds
         )
         return self.decoder(
             dynamics,
@@ -117,27 +116,3 @@ class GenSIMForecastModule(nn.Module):
         if self.sampler is not None:
             self.sampler.model = self.inference_model
         return None
-
-    def forecast_func(
-            self,
-            first_guess: torch.Tensor,
-            encoded: torch.Tensor,
-            mesh: torch.Tensor,
-            mask: torch.Tensor,
-            labels: torch.Tensor,
-            resolution: torch.Tensor
-    ) -> torch.Tensor:
-        if self.sampler is None:
-            raise ValueError("Sampler must be provided for forecasting")
-        
-        initial_states = generate_noise(first_guess, mask)
-        latent_bounds = self.decoder.get_latent_bounds(first_guess, mask)
-        return self.sampler.sample(
-            states=initial_states,
-            encoded=encoded,
-            mesh=mesh,
-            mask=mask,
-            labels=labels,
-            resolution=resolution,
-            latent_bounds=latent_bounds
-        )
