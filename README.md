@@ -127,16 +127,16 @@ This project is released under the MIT License (see `LICENSE`).
 If you use GenSIM, please cite the following preprint until publication:
 
 ```bibtex
-@article{Finn_preprint_2025,
-    author={Finn, Tobias Sebastian and Bocquet, Marc and Rampal, Pierre and Durand, Charlotte and Porro, Flavia and Farchi, Alban and Carrassi, Alberto}
-    title={Generative AI models enable efficient and physically consistent sea-ice simulations},
+@article{finn_preprint_2025,
+    author={Finn, Tobias Sebastian and Bocquet, Marc and Rampal, Pierre and Durand, Charlotte and Porro, Flavia and Farchi, Alban and Carrassi, Alberto},
+    title={Generative AI models capture realistic sea-ice evolution from days to decades},
     url={http://arxiv.org/abs/2508.14984},
     DOI={10.48550/arXiv.2508.14984},
     note={arXiv:2508.14984 [physics]},
     number={arXiv:2508.14984},
     publisher={arXiv},
     year={2025},
-    month=aug
+    month=nov
 }
 ```
 
