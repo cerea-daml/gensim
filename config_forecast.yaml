@@ -1,0 +1,126 @@
+hydra:
+  run:
+    dir: data/models/${exp_name}
+  sweep:
+    dir: data/models
+    subdir: ${exp_name}
+
+surrogate:
+  network:
+    _target_: gensim.network.Transformer
+    n_input: 24
+    n_output: 6
+    n_features: 512
+    n_blocks: 8
+    n_heads: 8
+    n_features_head: 64
+    n_rope_features: 32
+    n_embedding: 512
+    n_time_in: 1
+    n_res_in: 1
+    n_augment_in: 3
+    mult: 2
+    patch_size: 2
+    dropout_mlp: 0.0
+    lengthscale: 10
+    long_skips: true
+
+  encoder:
+    _target_: gensim.encoder_decoder.GaussianEncoder
+    mean:
+    - 0.876
+    - 0.4922
+    - 0.3684
+    - -0.0025
+    - -0.0079
+    - 0.0766
+    - 268.4102
+    - 0.003
+    - 0.4186
+    - -0.3956
+    - 268.4102
+    - 0.003
+    - 0.4186
+    - -0.3956
+    - 3.7189
+    - 6.662
+    - 3.7086
+    - 6.6906
+    std:
+    - 1.054
+    - 0.4746
+    - 0.4307
+    - 0.0621
+    - 0.0653
+    - 0.1283
+    - 12.8402
+    - 0.0025
+    - 5.4348
+    - 5.435
+    - 12.8402
+    - 0.0025
+    - 5.4348
+    - 5.435
+    - 4.9611
+    - 8.9729
+    - 4.2826
+    - 5.1771
+
+  decoder:
+    _target_: gensim.encoder_decoder.GaussianDecoder
+    mean:
+    - -0.0
+    - 0.0
+    - 0.0
+    - -0.0
+    - 0.0
+    - 0.0
+    std:
+    - 0.0822
+    - 0.0323
+    - 0.0529
+    - 0.0415
+    - 0.0416
+    - 0.0115
+    lower_bound:
+    - 0.0
+    - 0.0
+    - 0.0
+    - -.inf
+    - -.inf
+    - 0.0
+    upper_bound:
+    - .inf
+    - 1.0
+    - 1.0
+    - .inf
+    - .inf
+    - .inf
+
+  sampler:
+    _target_: gensim.sampler.FlowMatchingSampler
+    n_steps: 20
+    schedule_scale: 3
+    schedule_shift: 0.5
+    second_order: true
+    censoring: true
+
+  _target_: gensim.forecast_module.GenSIMForecastModule
+  _recursive_: false
+  patching: true
+  patch_size:
+  - 64
+  - 64
+  overlap_size:
+  - 8
+  - 8
+
+exp_name: gensim
+logging_level: DEBUG
+seed: 0
+num_workers: 8
+batch_size: 4
+ckpt_path: null
+compile: true
+nodes: 1
+devices: 8
