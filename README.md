@@ -16,7 +16,7 @@ data/
 ├── ds_auxiliary.nc - Auxiliary data file (grid cells, mask)
 ├── ds_demo.nc - Demo dataset (available at https://doi.org/10.5281/zenodo.17535317)
 ├─ models - The pre-trained model checkpoints (available at https://huggingface.co/tobifinn/GenSIM)
-├─ train_data – Zarr training data (not contained in the repository and has to be linked)
+├─ train_data – Zarr training data (not contained in the repository and has to be linked. How to get data please see notebooks/data/)
 
 gensim/
 ├─ augmentation.py – data augmentation (flips, rotations, patch generation)
