@@ -106,7 +106,7 @@ surrogate:
     censoring: true
 
   _target_: gensim.forecast_module.GenSIMForecastModule
-  _recursive_: false
+  _recursive_: true
   patching: true
   patch_size:
   - 64
