@@ -170,14 +170,6 @@ surrogate:
     - .inf
     - .inf
 
-  sampler:
-    _target_: gensim.sampler.FlowMatchingSampler
-    n_steps: 20
-    schedule_scale: 3
-    schedule_shift: 0.5
-    second_order: true
-    censoring: true
-
   train_augmentation:
     _target_: gensim.augmentation.DataAugmentation
     hflip:
