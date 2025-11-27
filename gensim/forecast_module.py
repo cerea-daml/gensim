@@ -6,7 +6,7 @@
 
 # System modules
 import logging
-from typing import Tuple, Optional
+from typing import Tuple
 
 # External modules
 import torch

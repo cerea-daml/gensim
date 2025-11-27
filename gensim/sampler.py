@@ -36,7 +36,7 @@ def get_schedule(
 class FlowMatchingSampler(object):
     def __init__(
             self,
-            model: torch.nn.Module,
+            model: torch.nn.Module = None,
             n_steps: int = 20,
             schedule_scale: float = 0.1,
             schedule_shift: float = 0.,
@@ -110,6 +110,8 @@ class FlowMatchingSampler(object):
         latent_bounds: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
         **model_kwargs,
     ) -> torch.Tensor:
+        if self.model is None:
+            raise ValueError("Please set the model before sampling")
         pseudo_time = torch.ones(
             states.size(0), 1, device=encoded.device
         )
