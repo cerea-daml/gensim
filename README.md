@@ -6,7 +6,7 @@ This is the official implementation of **GenSIM**, a generative sea-ice model to
 [![HuggingFace](https://img.shields.io/badge/Model-HuggingFace-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/tobifinn/GenSIM)
 [![Preprint](https://img.shields.io/badge/Preprint-ArXiv-B31B1B?style=flat&logo=arxiv)](https://arxiv.org/abs/2508.14984)
 ![Website](https://img.shields.io/badge/Website-Stay_Tuned-lightblue?style=flat)
-![Version](https://img.shields.io/badge/Version-0.5-blue?style=flat)
+![Version](https://img.shields.io/badge/Version-1.0-blue?style=flat)
 
 ## Repository Structure
 
