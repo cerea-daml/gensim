@@ -243,3 +243,19 @@ def neglogcdf(value: torch.Tensor) -> torch.Tensor:
         The cumulative distribution function value.
     """    
     return -torch.special.log_ndtr(value)
+
+
+class ToChannelsLastWrapper(torch.nn.Module):
+    def __init__(
+            self,
+            module_to_wrap: torch.nn.Module,
+            channel_dim: int = 1
+    ) -> None:
+        super().__init__()
+        self.module_to_wrap = module_to_wrap
+        self.channel_dim = channel_dim
+
+    def forward(self, in_tensor: torch.Tensor) -> torch.Tensor:
+        channels_last = in_tensor.movedim(self.channel_dim, -1)
+        func_output = self.module_to_wrap(channels_last)
+        return func_output.movedim(-1, self.channel_dim)
