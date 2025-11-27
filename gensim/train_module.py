@@ -6,7 +6,7 @@
 
 # System modules
 import logging
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple, Optional, Any
 
 # External modules
 import torch
@@ -301,3 +301,27 @@ class GenSIMTrainModule(pl.LightningModule):
             batch_idx: int,
     ) -> torch.Tensor:
         return self.validation_step(batch, batch_idx)
+
+    def configure_optimizers(
+            self
+    ) -> Any:
+        # To get rid of unusual imports when only inference is performed.
+        from cosine_annealing_warmup import CosineAnnealingWarmupRestarts
+        wd_params, nowd_params = split_wd_params(self.network)
+        optimizer_net = torch.optim.AdamW([
+            {"params": wd_params, "weight_decay": self.weight_decay},
+            {"params": nowd_params, "weight_decay": 0.0}
+        ], lr=self.lr, betas=(0.9, 0.99))
+        optimizer_scale = torch.optim.Adam(
+            self.log_scale_model.parameters(), lr=self.lr, betas=(0.9, 0.99)
+        )
+        scheduler = CosineAnnealingWarmupRestarts(
+            optimizer=optimizer_net,
+            first_cycle_steps=self.total_steps,
+            max_lr=self.lr,
+            min_lr=1E-6,
+            warmup_steps=self.lr_warmup,
+        )
+        return [
+            optimizer_net, optimizer_scale
+        ], [{"scheduler": scheduler, "interval": "step"}]
