@@ -22,12 +22,13 @@ gensim/
 ├─ augmentation.py – data augmentation (flips, rotations, patch generation)
 ├─ data_module.py – LightningDataModule for training/validation datasets
 ├─ dataset.py – PyTorch Dataset that reads Zarr data
+├─ deterministic_network.py – U-Net architecture used as reference for a deterministic model
 ├─ embedding.py – random‑Fourier embeddings and Embedder
 ├─ encoder_decoder.py – Encoder and Decoder to map to physical space
-├─ train_module.py – LightningModule for training with EMA model support
 ├─ forecast_module.py – Lightweight PyTorch module for inference
 ├─ network.py – Transformer architecture (tokenizer, attention, skips)
 ├─ sampler.py – Flow‑matching sampler with schedule and second‑order update
+├─ train_module.py – LightningModule for training with EMA model support
 ├─ utils.py – helper functions (masking, averaging, param grouping)
 └─ wrapper.py – PatchedNetwork wrapper for forecasting with domain decomposition
 
