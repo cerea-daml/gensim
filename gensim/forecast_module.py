@@ -21,7 +21,7 @@ from .wrapper import PatchedNetwork
 main_logger = logging.getLogger(__name__)
 
 
-class GenSIMForecastModule(nn.Module):
+class GenSIMForecastModule(torch.nn.Module):
     _LABELS_DIMS: int = 3
 
     def __init__(
